@@ -94,7 +94,7 @@ You can add this config element using Thread group --> Add --> Config Element --
 Input schema template can be in any format
 
 **JSON schema template**
-```json
+```
 {
 	"messageId":{{SEQUENCE("messageId", 1, 1)}},
 	"messageBody":"{{RANDOM_ALPHA_NUMERIC("abcedefghijklmnopqrwxyzABCDEFGHIJKLMNOPQRWXYZ", 100)}}",
