@@ -5,13 +5,13 @@ jdk:
 
 notifications:
   email: false
-
+  
 # whitelist
 branches:
   only:
     - master
+    
+sudo: false 
 
-sudo: false
-
-script:
-mvn clean install
+script: 
+  mvn clean install
