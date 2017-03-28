@@ -14,4 +14,4 @@ branches:
 sudo: false 
 
 script: 
-  mvn clean install
+  mvn clean install cobertura:cobertura coveralls:report
