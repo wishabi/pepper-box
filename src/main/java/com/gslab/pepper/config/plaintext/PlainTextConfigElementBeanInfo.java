@@ -41,11 +41,5 @@ public class PlainTextConfigElementBeanInfo extends BeanInfoSupport {
         PropertyDescriptor p = property(JSON_SCHEMA);
         p.setPropertyEditorClass(TextAreaEditor.class);
         p.setValue(NOT_UNDEFINED, Boolean.TRUE);
-
-        p = property(PLACE_HOLDER);
-        p.setValue(NOT_UNDEFINED, Boolean.TRUE);
-        p.setValue(DEFAULT, PropsKeys.MSG_GEN_PLC_HLDR);
-        p.setValue(NOT_EXPRESSION, Boolean.TRUE);
-
     }
 }
