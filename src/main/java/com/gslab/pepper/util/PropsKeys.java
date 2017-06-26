@@ -9,6 +9,7 @@ package com.gslab.pepper.util;
  */
 public class PropsKeys {
 
+    public static final int CONST_TOKEN_SIZE = 16384;
     public static final char OPENING_BRACE = '{';
     public static final char CLOSING_BRACE = '}';
     public static final String STR_BUILD_OBJ = "builder";

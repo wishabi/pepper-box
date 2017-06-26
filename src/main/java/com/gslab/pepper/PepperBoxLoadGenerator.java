@@ -175,6 +175,7 @@ public class PepperBoxLoadGenerator extends Thread {
         while (endTime > System.currentTimeMillis()) {
             sendMessage();
         }
+        producer.close();
     }
 
     public void sendMessage() {
