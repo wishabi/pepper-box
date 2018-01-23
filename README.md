@@ -82,6 +82,8 @@ _ssl.truststore.location
 _ssl.truststore.password
 
 ```
+***Note:*** These are just sample properties, SSL properties are already included in kafka sampler.
+
 ### Pepper-Box PlainText Config
 ___
 
