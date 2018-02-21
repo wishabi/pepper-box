@@ -16,6 +16,10 @@ public class TestInputUtils {
             "\t\"messageTime\":{{TIMESTAMP()}}\n" +
             "}";
 
+    public static String testKeySchema = "{\n" +
+            "\t\"messageId\":{{SEQUENCE(\"messageId\", 1, 1)}}" +
+            "}";
+
     public static String defectSchema = "{\n" +
             "\t\"messageId\":{{WRONG_FUNCTION(\"messageId\", 1, 1)}},\n" +
             "\t\"messageBody\":\"{{RANDOM_ALPHA_NUMERIC(\"abcedefghijklmnopqrwxyzABCDEFGHIJKLMNOPQRWXYZ\", 100)}}\",\n" +
@@ -43,6 +47,18 @@ public class TestInputUtils {
             "java.security.krb5.conf=<krb5.conf location>\n" +
             "sasl.kerberos.service.name=<kerboros service name>";
 
+    public static List<FieldExpressionMapping> getKeyExpressionMappings() {
+        List<FieldExpressionMapping> fieldExpressionMappings = new ArrayList<>();
+        FieldExpressionMapping fieldExpressionMapping = new FieldExpressionMapping();
+        fieldExpressionMapping.setFieldName("messageId");
+        fieldExpressionMapping.setFieldExpression("SEQUENCE(\"messageId\", 1, 1)");
+
+        Assert.assertNotNull(fieldExpressionMapping.getFieldName());
+        Assert.assertNotNull(fieldExpressionMapping.getFieldExpression());
+
+        fieldExpressionMappings.add(fieldExpressionMapping);
+        return fieldExpressionMappings;
+    }
 
     public static List<FieldExpressionMapping> getFieldExpressionMappings() {
         List<FieldExpressionMapping> fieldExpressionMappings = new ArrayList<>();
