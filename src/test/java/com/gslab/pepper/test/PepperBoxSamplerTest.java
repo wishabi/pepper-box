@@ -60,6 +60,7 @@ public class PepperBoxSamplerTest {
         Properties brokerProps = new Properties();
         brokerProps.setProperty("zookeeper.connect", zkConnect);
         brokerProps.setProperty("broker.id", "0");
+        brokerProps.setProperty("offsets.topic.replication.factor", "1");
         brokerProps.setProperty("log.dirs", Files.createTempDirectory("kafka-").toAbsolutePath().toString());
         brokerProps.setProperty("listeners", "PLAINTEXT://" + BROKERHOST +":" + BROKERPORT);
         KafkaConfig config = new KafkaConfig(brokerProps);
