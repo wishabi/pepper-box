@@ -32,6 +32,7 @@ public class PropsKeys {
     public static final String JAVA_EXT = ".java";
     public static final String CLASS_EXT = ".class";
     public static final String SPLIT_BY_DOT = "\\.";
+    public static final String MSG_KEY_PLACEHOLDER = "KEY";
     public static final String MSG_PLACEHOLDER = "MESSAGE";
     public static final String PLAINTEXT_MESSAGE_GENERATOR_TPL = "MessageGenerator.tpl";
     public static final String SERIALIZED_MESSAGE_GENERATOR_TPL = "SerializedMessageGenerator.tpl";
@@ -41,6 +42,9 @@ public class PropsKeys {
     public static final String HOST = "host";
     public static final String PORT = "port";
     public static final String BROKER_IDS_ZK_PATH = "/brokers/ids";
-    public static final String MESSAGE_PLACEHOLDER_KEY = "message.placeholder.key";
+    public static final String KEYED_MESSAGE_KEY = "keyed.message";
+    public static final String KEYED_MESSAGE_DEFAULT = "NO";
+    public static final String MESSAGE_KEY_PLACEHOLDER_KEY = "message.key.placeholder";
+    public static final String MESSAGE_VAL_PLACEHOLDER_KEY = "message.value.placeholder";
     public static final String OBJ_CLASS = "{{OBJ_CLASS}}";
 }

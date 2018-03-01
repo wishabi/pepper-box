@@ -1,10 +1,10 @@
 
 package com.gslab.pepper.sampler;
 
-import com.eclipsesource.json.*;
+import com.eclipsesource.json.Json;
+import com.eclipsesource.json.JsonObject;
 import com.gslab.pepper.util.ProducerKeys;
 import com.gslab.pepper.util.PropsKeys;
-import kafka.cluster.Broker;
 import org.apache.jmeter.config.Arguments;
 import org.apache.jmeter.protocol.java.sampler.AbstractJavaSamplerClient;
 import org.apache.jmeter.protocol.java.sampler.JavaSamplerContext;
@@ -42,9 +42,11 @@ public class PepperBoxKafkaSampler extends AbstractJavaSamplerClient {
     // topic on which messages will be sent
     private String topic;
 
-    //Message placeholder key
-    private String placeHolder;
+    //Message placeholder keys
+    private String msg_key_placeHolder;
+    private String msg_val_placeHolder;
 
+    private boolean key_message_flag = false;
     private static final Logger log = LoggingManager.getLoggerForClass();
 
     /**
@@ -69,7 +71,9 @@ public class PepperBoxKafkaSampler extends AbstractJavaSamplerClient {
         defaultParameters.addArgument(ProducerConfig.SEND_BUFFER_CONFIG, ProducerKeys.SEND_BUFFER_CONFIG_DEFAULT);
         defaultParameters.addArgument(ProducerConfig.RECEIVE_BUFFER_CONFIG, ProducerKeys.RECEIVE_BUFFER_CONFIG_DEFAULT);
         defaultParameters.addArgument(CommonClientConfigs.SECURITY_PROTOCOL_CONFIG, SecurityProtocol.PLAINTEXT.name);
-        defaultParameters.addArgument(PropsKeys.MESSAGE_PLACEHOLDER_KEY, PropsKeys.MSG_PLACEHOLDER);
+        defaultParameters.addArgument(PropsKeys.KEYED_MESSAGE_KEY, PropsKeys.KEYED_MESSAGE_DEFAULT);
+        defaultParameters.addArgument(PropsKeys.MESSAGE_KEY_PLACEHOLDER_KEY, PropsKeys.MSG_KEY_PLACEHOLDER);
+        defaultParameters.addArgument(PropsKeys.MESSAGE_VAL_PLACEHOLDER_KEY, PropsKeys.MSG_PLACEHOLDER);
         defaultParameters.addArgument(ProducerKeys.KERBEROS_ENABLED, ProducerKeys.FLAG_NO);
         defaultParameters.addArgument(ProducerKeys.JAVA_SEC_AUTH_LOGIN_CONFIG, ProducerKeys.JAVA_SEC_AUTH_LOGIN_CONFIG_DEFAULT);
         defaultParameters.addArgument(ProducerKeys.JAVA_SEC_KRB5_CONFIG, ProducerKeys.JAVA_SEC_KRB5_CONFIG_DEFAULT);
@@ -137,7 +141,11 @@ public class PepperBoxKafkaSampler extends AbstractJavaSamplerClient {
             props.put(ProducerKeys.SASL_KERBEROS_SERVICE_NAME, context.getParameter(ProducerKeys.SASL_KERBEROS_SERVICE_NAME));
         }
 
-        placeHolder = context.getParameter(PropsKeys.MESSAGE_PLACEHOLDER_KEY);
+        if (context.getParameter(PropsKeys.KEYED_MESSAGE_KEY).equals("YES")) {
+            key_message_flag= true;
+            msg_key_placeHolder = context.getParameter(PropsKeys.MESSAGE_KEY_PLACEHOLDER_KEY);
+        }
+        msg_val_placeHolder = context.getParameter(PropsKeys.MESSAGE_VAL_PLACEHOLDER_KEY);
         topic = context.getParameter(ProducerKeys.KAFKA_TOPIC_CONFIG);
         producer = new KafkaProducer<String, Object>(props);
 
@@ -155,13 +163,17 @@ public class PepperBoxKafkaSampler extends AbstractJavaSamplerClient {
 
         SampleResult sampleResult = new SampleResult();
         sampleResult.sampleStart();
-        Object message = JMeterContextService.getContext().getVariables().getObject(placeHolder);
-
+        Object message_val = JMeterContextService.getContext().getVariables().getObject(msg_val_placeHolder);
+        ProducerRecord<String, Object> producerRecord;
         try {
-
-            ProducerRecord<String, Object> producerRecord = new ProducerRecord<String, Object>(topic, message);
+            if (key_message_flag) {
+                Object message_key = JMeterContextService.getContext().getVariables().getObject(msg_key_placeHolder);
+                producerRecord = new ProducerRecord<String, Object>(topic, message_key.toString(), message_val);
+            } else {
+                producerRecord = new ProducerRecord<String, Object>(topic, message_val);
+            }
             producer.send(producerRecord);
-            sampleResult.setResponseData(message.toString(), StandardCharsets.UTF_8.name());
+            sampleResult.setResponseData(message_val.toString(), StandardCharsets.UTF_8.name());
             sampleResult.setSuccessful(true);
             sampleResult.sampleEnd();
 
