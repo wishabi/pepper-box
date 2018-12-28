@@ -263,7 +263,7 @@ Pepper-Box provides various template functions for random data generation,
 |RANDOM_LONG(long1, long2, long3,...)|Random long among given|```{{RANDOM_LONG(1, 2, 3, 4)}}```|Long|
 |RANDOM_INT_RANGE(min, max)|Random integer among given|```{{RANDOM_INT_RANGE(1,100)}}```|Integer|
 |RANDOM_FLOAT_RANGE(min, max)|Random float between min and max|```{{RANDOM_FLOAT_RANGE(1.0F, 100.0F)}}```|Float|
-|RANDOM_FLOAT_RANGE(min, max)|Random double between min and max|```{{RANDOM_FLOAT_RANGE(1.0, 100.0)}}```|Double|
+|RANDOM_DOUBLE_RANGE(min, max)|Random double between min and max|```{{RANDOM_DOUBLE_RANGE(1.0, 100.0)}}```|Double|
 |RANDOM_LONG_RANGE(min, max)|Random long between min and max|```{{RANDOM_LONG_RANGE(1,100)}}```|Long|
 |FIRST_NAME()|Random first name|```{{FIRST_NAME()}}```|String|
 |LAST_NAME()|Random last name|```{{LAST_NAME()}}```|String|
